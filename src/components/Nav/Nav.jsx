@@ -93,12 +93,12 @@ const Nav = () => {
 									<div className="flex items-center transition-all opacity-1">
 										{loading ? (
 											<span className="text-sm font-semibold whitespace-nowrap truncate mx-auto">
-												<Image
+												{/* <Image
 													src="/loading.gif"
 													width={20}
 													height={20}
 													alt="Searching🔍"
-												/>
+												/> */}
 											</span>
 										) : (
 											<span className="text-sm max-sm:text-xs font-semibold whitespace-nowrap truncate mx-auto">
