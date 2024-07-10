@@ -8,6 +8,15 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			dropShadow: {
+				'3xl': '0 10px 15px rgba(145, 144, 144, 0.25)',
+			},
+			colors: {
+				'd-color': '#444444',
+			},
+			backgroundColor: {
+				'd-col': '#444444',
+			},
 			backgroundImage: {
 				'dark-lg':
 					'linear-gradient(to right bottom, #191819, #212022, #2a292b, #323235, #3a3b3f, #3d3f42, #3f4246, #3d4042, #414446, #404344, #3f4141, #3e3f3f)',
