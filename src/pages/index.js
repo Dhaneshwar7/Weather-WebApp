@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
+import Nav from '@/components/Nav/Nav';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,8 +18,10 @@ export default function Home() {
 // 		.then(res => res.json())
 // 		.then(console.log);
 	return (
-	<>
-  
-  </>
+		<>
+			<main className="w-screen h-screen py-8 px-10 max-sm:py-4 max-sm:px-3  bg-light-lg dark:bg-dark-lg transition-[background-image] duration-2000">
+				<Nav />
+			</main>
+		</>
 	);
 }
