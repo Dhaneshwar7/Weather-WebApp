@@ -13,7 +13,7 @@ const Nav = () => {
 	if (!mounted) return null;
 	return (
 		<>
-			<nav className="flex  items-center justify-between w-full ">
+			<nav className="flex items-center justify-between w-full ">
 				<div className="DarkModeButton relative">
 					<button
 						onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
