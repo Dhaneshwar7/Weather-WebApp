@@ -13,32 +13,25 @@ export default function Home({ data }) {
 	// const [currentLocation, setCurrentLocation] = useState('Current Location');
 
 	// console.log(data);
-	console.log(state);
-	console.log(data);
+	// console.log(state);
 	// 	let params = new URLSearchParams({
 	// 		q: 'London',
 	// 		limit: '2',
 	// 		appid: 'fe7525cb58077d1151f33f61b2576dc5',
 	// 	});
 
-	// console.log(location);
-
-	// Function to handle fetching weather data based on lat and long
-
 	useEffect(() => {
-		if (data) {
+		if (!localStorage.getItem('lat')) {
 			dispatch({
 				type: 'WEATHER_DATA',
 				weatherData: data,
 			});
 			localStorage.setItem('weather-data', JSON.stringify(data));
-			console.log('Initial data set in context');
 		}
 	}, [data, dispatch]);
 
 	useEffect(() => {
 		setMounted(true);
-		// console.log(data);
 		dispatch({
 			type: 'WEATHER_DATA',
 			weatherData: JSON.parse(localStorage.getItem('weather-data')),
@@ -56,11 +49,6 @@ export default function Home({ data }) {
 			>
 				<Nav />
 				<WeatherBox />
-
-				{/* <p>
-					Latitude: {location.latitude} <br />
-					Longitude: {location.longitude}
-				</p> */}
 			</main>
 		</>
 	);
@@ -76,10 +64,7 @@ export async function getStaticProps() {
 		if (!response.ok) {
 			throw new Error('Weather data not available');
 		}
-		console.log(response);
 		data = await response.json();
-
-		// data = await JSON.parse(JSON.stringify(data)); // step required during deployment in staticProps
 	} catch (error) {
 		console.log(error.message);
 	}

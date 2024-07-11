@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 
 const SearchBar = () => {
-	const handleSearchChange = () => {};
 	const [loading, setLoading] = useState(false);
-
+	
+	const handleSearchChange = () => {
+		
+	};
 
   return (
 		<div className="SearchBar">
