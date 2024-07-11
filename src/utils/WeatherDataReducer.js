@@ -5,24 +5,31 @@ const initialState = {
 	searchText: '',
 	error: '',
 	currentLocation: 'Current Location',
+	date: null,
 };
 
 const reducer = (state, action) => {
 	switch (action.type) {
-		case 'ADD_CURRENT_LOCATION':
-			return {
-				...state,
-				currentLocation: action.currentLocation,
-			};
 		case 'WEATHER_DATA':
 			return {
 				...state,
 				data: action.weatherData,
 			};
+		case 'ADD_CURRENT_LOCATION':
+			return {
+				...state,
+				currentLocation: action.currentLocation,
+			};
+
 		case 'SET_ERROR':
 			return {
 				...state,
 				error: action.error,
+			};
+		case 'SET_DATE':
+			return {
+				...state,
+				date: action.edate,
 			};
 
 		default:

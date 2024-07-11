@@ -11,6 +11,7 @@ import sunRise from '../../../public/Icons/sunrise.svg';
 import sunSet from '../../../public/Icons/sunset.svg';
 import { useTheme } from 'next-themes';
 import { WeatherDataContext } from '@/utils/WeatherDataReducer';
+import timeConverter from '@/utils/GetTimeConversion';
 
 const mpopi = Mochiy_Pop_One({
 	weight: '400',
@@ -27,8 +28,11 @@ const WeatherBox = () => {
 		pressure: '',
 		windy: '',
 		visibility: '',
+		toDay: '',
+		currenTime: '',
+		date: null,
+		currentLocation: 'Location',
 	});
-	console.log(state);
 	const iconBlack = {
 		width: 'auto',
 		height: 'auto',
@@ -45,66 +49,11 @@ const WeatherBox = () => {
 		if (state.data) {
 			const result = state.data.main;
 			const alldata = state.data;
-			console.log('eske baad');
-			console.log(parseFloat(alldata.wind.speed * 3.6));
-			function timeConverter(UNIX_timestamp) {
-				var a = new Date(UNIX_timestamp * 1000);
-				var months = [
-					'Jan',
-					'Feb',
-					'Mar',
-					'Apr',
-					'May',
-					'Jun',
-					'Jul',
-					'Aug',
-					'Sep',
-					'Oct',
-					'Nov',
-					'Dec',
-				];
-				var days = [
-					'Sunday',
-					'Monday',
-					'Tuesday',
-					'Wednesday',
-					'Thursday',
-					'Friday',
-					'Saturday',
-				];
-				var year = a.getFullYear();
-				var day = days[a.getDay()];
-				var month = months[a.getMonth()];
-				var date = a.getDate();
-				var hour = a.getHours();
-				var hours = a.getHours();
-				if (hours > 12) {
-					hours -= 12;
-				} else if (hours === 0) {
-					hours = 12;
-				}
-				var min = a.getMinutes();
-				var sec = a.getSeconds();
-				var todayDateTime = {
-					toDay: day + ' ,' + date + ' ' + month,
-					currenTime: hours + 2 + ' : ' + min,
-					time:
-						date +
-						' ' +
-						month +
-						' ' +
-						year +
-						' ' +
-						hour +
-						':' +
-						min +
-						':' +
-						sec,
-				};
-				console.log(a);
-				return todayDateTime;
-			}
-			console.log(timeConverter(alldata.dt));
+			// console.log(timeConverter(alldata.dt));
+			let todayDateTime = timeConverter(alldata.dt);
+			dispatch({ type: 'SET_DATE', edate: todayDateTime });
+
+			// console.log(todayDateTime);
 			setWData({
 				temperature: (result.temp - 273.15).toFixed(1),
 				feelsLike: (result.feels_like - 273.15).toFixed(2),
@@ -112,9 +61,11 @@ const WeatherBox = () => {
 				pressure: result.pressure,
 				windy: parseFloat(alldata.wind.speed * 3.6).toFixed(2),
 				visibility: alldata.visibility / 1000,
+				date: todayDateTime,
+				currentLocation: state.data.name,
 			});
 		}
-	}, [state.data]);
+	}, [state.data, dispatch]);
 
 	if (!mounted) return null;
 	return (
@@ -122,11 +73,15 @@ const WeatherBox = () => {
 			<div className="WeatherBox flex flex-row max-sm:flex-col items-center justify-between max-sm:h-auto h-[40vh] py-3 px-2 gap-8 max-sm:py-5 max-sm:gap-4">
 				<div className="BasicInfo grow bg-l-col dark:bg-d-col w-[37%] max-sm:w-full max-sm:py-4 h-full rounded-2xl flex flex-col items-center drop-shadow-box justify-center">
 					<div className={`Location mb-10 max-sm:mb-4 ${mpopi.className}`}>
-						<h2 className="text-4xl max-sm:text-2xl ">Bhopal</h2>
+						<h2 className="text-4xl max-sm:text-2xl ">
+							{wdata.currentLocation}
+						</h2>
 					</div>
 					<div className="Time text-center">
-						<h1 className="text-6xl max-sm:text-4xl">09:03</h1>
-						<h3 className="text-xl max-sm:text-base">Thursday, 31 Aug</h3>
+						<h1 className="text-6xl max-sm:text-4xl">
+							{wdata?.date?.currenTime}
+						</h1>
+						<h3 className="text-xl max-sm:text-base">{wdata?.date?.toDay}</h3>
 					</div>
 				</div>
 				<div className="WeatherInfo drop-shadow-box bg-l-col dark:bg-d-col w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 flex max-sm:flex-col">

@@ -6,7 +6,9 @@ const CurrentLocation = () => {
 	const [location, setLocation] = useState({ latitude: null, longitude: null });
 	const [weatherData, setWeatherData] = useState(null);
 	const { state, dispatch } = useContext(WeatherDataContext);
-	const [currentLocation, setCurrentLocaton] = useState(state.currentLocation);
+	const [currentLocation, setCurrentLocaton] = useState(
+		state.currentLocation || 'Current Location'
+	);
 	const [mount, setMount] = useState(false);
 	const [error, setError] = useState(null);
 	// console.log(state);
@@ -18,7 +20,10 @@ const CurrentLocation = () => {
 		async (lat, long) => {
 			try {
 				const response = await fetch(
-					`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=38563a45e910840c283837a6959d2880`
+					`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=38563a45e910840c283837a6959d2880`,
+					{
+						next: { revalidate: 10 },
+					}
 				);
 				if (!response.ok) {
 					throw new Error('Weather data not available');
@@ -26,10 +31,10 @@ const CurrentLocation = () => {
 				const data = await response.json();
 				setWeatherData(data);
 				setCurrentLocaton(data.name);
-				dispatch({ type: 'ADD_CURRENT_LOCATION', currentLoc: data.name });
-				dispatch({ type: 'WEATHER_DATA', weatherData: data });
 				localStorage.setItem('current-location', data.name);
 				localStorage.setItem('weather-data', JSON.stringify(data));
+				dispatch({ type: 'ADD_CURRENT_LOCATION', currentLoc: data.name });
+				dispatch({ type: 'WEATHER_DATA', weatherData: data });
 			} catch (error) {
 				// console.error('Error fetching weather data:', error);
 				setError(error.message);
@@ -58,7 +63,7 @@ const CurrentLocation = () => {
 
 	useEffect(() => {
 		setMount(true);
-	},[]);
+	}, []);
 
 	if (!mount) return null;
 	return (
