@@ -1,14 +1,70 @@
-import React from 'react'
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
+import fetchCurrentLocation from '@/utils/GetLoc';
+import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 
 const CurrentLocation = () => {
-  return (
+	const [location, setLocation] = useState({ latitude: null, longitude: null });
+	const [weatherData, setWeatherData] = useState(null);
+	const { state, dispatch } = useContext(WeatherDataContext);
+	const [currentLocation, setCurrentLocaton] = useState('Current Place');
+	const [mount, setMount] = useState(false);
+	const [error, setError] = useState(null);
+
+	const handleLocationFetched = loc => {
+		setLocation(loc);
+	};
+	const fetchWeatherData = useCallback(async (lat, long) => {
+		try {
+			const response = await fetch(
+				`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=38563a45e910840c283837a6959d2880`
+			);
+			if (!response.ok) {
+				throw new Error('Weather data not available');
+			}
+			const data = await response.json();
+			setWeatherData(data);
+			setCurrentLocaton(data.name);
+			localStorage.setItem('current-location', data.name);
+		} catch (error) {
+			// console.error('Error fetching weather data:', error);
+			setError(error.message);
+		}
+	}, []);
+	const handleClick = async () => {
+		try {
+			const location = await fetchCurrentLocation(handleLocationFetched);
+			setLocation(location);
+		} catch (error) {
+			// console.error('Error fetching location:', error.message);
+			setError(error.message);
+		}
+	};
+	useEffect(() => {
+		if (location.latitude && location.longitude) {
+			fetchWeatherData(location.latitude, location.longitude);
+		}
+	}, [location, fetchWeatherData]);
+
+	// console.log(weatherData);
+
+	useEffect(() => {
+		setMount(true);
+	});
+
+	if (!mount) return null;
+	return (
 		<div className="CurrentLocation">
 			<label
 				className="mx-auto max-sm:mt-0 max-sm:w-full relative max-sm:flex max-sm:justify-betwee max-sm:whitespace-nowrap max-sm:flex-row bg-green-100 dark:bg-d-col min-w-xl max-w-2xl max-sm:max-w-sm flex flex-col md:flex-row items-center justify-center border-[.8px] border-zinc-400 py-1 px-1 rounded-full gap-2 shadow-2xl  focus-within:border-gray-300 drop-shadow-lg dark:drop-shadow-3xl"
 				htmlFor="search"
 			>
 				<button
-					type="submit"
+					onClick={handleClick}
 					className="w-full md:w-auto px-3 max-sm:p-1 py-2 max-sm:w-full dark:bg-green-700 text-black dark:text-gray-100 dark:hover:bg-green-600 bg-green-400 hover:bg-green-500 border-black fill-white active:scale-95 duration-100 border-[.5px] will-change-transform overflow-hidden relative rounded-full transition-all"
 				>
 					<div className="flex items-center transition-all opacity-1 gap-1">
@@ -23,13 +79,19 @@ const CurrentLocation = () => {
 							</svg>
 						</span>
 						<span className="text-sm max-sm:text-[8px] max-sm:hidden font-semibold whitespace-nowrap truncate mx-auto">
-							Current Location
+							{currentLocation}
 						</span>
 					</div>
 				</button>
+				{/* {location && (
+					<div>
+						<p>Latitude: {location.latitude}</p>
+						<p>Longitude: {location.longitude}</p>
+					</div>
+				)} */}
 			</label>
 		</div>
 	);
-}
+};
 
-export default CurrentLocation
+export default CurrentLocation;
