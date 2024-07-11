@@ -1,12 +1,14 @@
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Poppins } from 'next/font/google';
 import Nav from '@/components/Nav/Nav';
 import WeatherBox from '@/components/WeatherComponents/WeatherBox';
 import GeoLocation from '@/utils/Geolocation';
+import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 
 const popi = Poppins({ weight: '600', display: 'swap', subsets: ['latin'] });
 export default function Home() {
+	const { state, dispatch } = useContext(WeatherDataContext);
 	const [weatherData, setWeatherData] = useState(null);
 	const [mounted, setMounted] = useState(false);
 	const [currentLocation, setCurrentLocation] = useState('Current Location');
@@ -25,9 +27,17 @@ export default function Home() {
 	// console.log(location);
 
 	// Function to handle fetching weather data based on lat and long
-	
+
 	useEffect(() => {
 		setMounted(true);
+		dispatch({
+			type: 'WEATHER_DATA',
+			weatherData: JSON.parse(localStorage.getItem('weather-data')),
+		});
+		dispatch({
+			type: 'ADD_CURRENT_LOCATION',
+			currentLocation: localStorage.getItem('current-location'),
+		});
 	}, []);
 	if (!mounted) return null;
 	return (

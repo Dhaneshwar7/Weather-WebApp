@@ -9,22 +9,20 @@ const initialState = {
 
 const reducer = (state, action) => {
 	switch (action.type) {
-		case 'ADDPRODUCT':
+		case 'ADD_CURRENT_LOCATION':
 			return {
 				...state,
-				products: [
-					...state.products,
-					{
-						id: action.id,
-						pname: action.pname,
-						price: action.price,
-					},
-				],
+				currentLocation: action.currentLocation,
 			};
-		case 'SET_SEARCH_TERM':
+		case 'WEATHER_DATA':
 			return {
 				...state,
-				searchTerm: action.term,
+				data: action.weatherData,
+			};
+		case 'SET_ERROR':
+			return {
+				...state,
+				error: action.error,
 			};
 
 		default:

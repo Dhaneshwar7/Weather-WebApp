@@ -1,9 +1,4 @@
-import React, {
-	useCallback,
-	useContext,
-	useEffect,
-	useState,
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import fetchCurrentLocation from '@/utils/GetLoc';
 import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 
@@ -11,9 +6,10 @@ const CurrentLocation = () => {
 	const [location, setLocation] = useState({ latitude: null, longitude: null });
 	const [weatherData, setWeatherData] = useState(null);
 	const { state, dispatch } = useContext(WeatherDataContext);
-	const [currentLocation, setCurrentLocaton] = useState('Current Place');
+	const [currentLocation, setCurrentLocaton] = useState(state.currentLocation);
 	const [mount, setMount] = useState(false);
 	const [error, setError] = useState(null);
+	// console.log(state);
 
 	const handleLocationFetched = loc => {
 		setLocation(loc);
@@ -29,10 +25,14 @@ const CurrentLocation = () => {
 			const data = await response.json();
 			setWeatherData(data);
 			setCurrentLocaton(data.name);
+			dispatch({ type: 'ADD_CURRENT_LOCATION', currentLoc: data.name });
+			dispatch({ type: 'WEATHER_DATA', weatherData: data });
 			localStorage.setItem('current-location', data.name);
+			localStorage.setItem('weather-data', JSON.stringify(data));
 		} catch (error) {
 			// console.error('Error fetching weather data:', error);
 			setError(error.message);
+			dispatch({ type: 'SET_ERROR', error: error.message });
 		}
 	}, []);
 	const handleClick = async () => {
@@ -42,6 +42,7 @@ const CurrentLocation = () => {
 		} catch (error) {
 			// console.error('Error fetching location:', error.message);
 			setError(error.message);
+			dispatch({ type: 'SET_ERROR', error: error.message });
 		}
 	};
 	useEffect(() => {

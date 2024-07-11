@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Mochiy_Pop_One } from 'next/font/google';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import bigSunSvg from '../../../public/Icons/BigSunPic.svg';
 import sunRise from '../../../public/Icons/sunrise.svg';
 import sunSet from '../../../public/Icons/sunset.svg';
 import { useTheme } from 'next-themes';
+import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 
 const mpopi = Mochiy_Pop_One({
 	weight: '400',
@@ -17,8 +18,17 @@ const mpopi = Mochiy_Pop_One({
 	subsets: ['latin'],
 });
 const WeatherBox = () => {
+	const { state, dispatch } = useContext(WeatherDataContext);
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
+	const [wdata, setWData] = useState({
+		feelsLike: '',
+		humidity: '',
+		pressure: '',
+		windy: '',
+		visibility: '',
+	});
+	console.log(state);
 	const iconBlack = {
 		width: 'auto',
 		height: 'auto',
@@ -32,6 +42,78 @@ const WeatherBox = () => {
 
 	useEffect(() => {
 		setMounted(true);
+		if (state.data) {
+			const result = state.data.main;
+			const alldata = state.data;
+			console.log('eske baad');
+			console.log(parseFloat(alldata.wind.speed * 3.6));
+			function timeConverter(UNIX_timestamp) {
+				var a = new Date(UNIX_timestamp * 1000);
+				var months = [
+					'Jan',
+					'Feb',
+					'Mar',
+					'Apr',
+					'May',
+					'Jun',
+					'Jul',
+					'Aug',
+					'Sep',
+					'Oct',
+					'Nov',
+					'Dec',
+				];
+				var days = [
+					'Sunday',
+					'Monday',
+					'Tuesday',
+					'Wednesday',
+					'Thursday',
+					'Friday',
+					'Saturday',
+				];
+				var year = a.getFullYear();
+				var day = days[a.getDay()];
+				var month = months[a.getMonth()];
+				var date = a.getDate();
+				var hour = a.getHours();
+				var hours = a.getHours();
+				if (hours > 12) {
+					hours -= 12;
+				} else if (hours === 0) {
+					hours = 12;
+				}
+				var min = a.getMinutes();
+				var sec = a.getSeconds();
+				var todayDateTime = {
+					toDay: day + ' ,' + date + ' ' + month,
+					currenTime: hours + 2 + ' : ' + min,
+					time:
+						date +
+						' ' +
+						month +
+						' ' +
+						year +
+						' ' +
+						hour +
+						':' +
+						min +
+						':' +
+						sec,
+				};
+				console.log(a);
+				return todayDateTime;
+			}
+			console.log(timeConverter(alldata.dt));
+			setWData({
+				temperature: (result.temp - 273.15).toFixed(1),
+				feelsLike: (result.feels_like - 273.15).toFixed(2),
+				humidity: result.humidity,
+				pressure: result.pressure,
+				windy: parseFloat(alldata.wind.speed * 3.6).toFixed(2),
+				visibility: alldata.visibility / 1000,
+			});
+		}
 	}, []);
 
 	if (!mounted) return null;
@@ -50,9 +132,9 @@ const WeatherBox = () => {
 				<div className="WeatherInfo drop-shadow-box bg-l-col dark:bg-d-col w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
 						<div className="Temperature container text-center m-auto  py-3 mb-3">
-							<h1 className="text-6xl max-sm:text-6xl">24 C </h1>
+							<h1 className="text-6xl max-sm:text-6xl">{wdata.temperature}C</h1>
 							<div className="FeelLike">
-								<h3> Feels Like:22 C</h3>{' '}
+								<h3> Feels Like : {wdata.feelsLike}</h3>{' '}
 							</div>
 						</div>
 						<div className="SunRiseSunSet container flex items-center justify-center flex-col gap-2 m-auto">
@@ -114,7 +196,7 @@ const WeatherBox = () => {
 								width={40}
 								height={40}
 							/>
-							<h3>41%</h3>
+							<h3 className="text-sm">{wdata.humidity}%</h3>
 							<p className="text-xs">Humidity</p>
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
@@ -125,8 +207,9 @@ const WeatherBox = () => {
 								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
+								className="-mt-1"
 							/>
-							<h3>2Km/h</h3>
+							<h3 className="text-sm">{wdata.windy}Km/h</h3>
 							<p className="text-xs">Wind Speed</p>
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
@@ -138,7 +221,7 @@ const WeatherBox = () => {
 								width={40}
 								height={40}
 							/>
-							<h3>997pha</h3>
+							<h3 className="text-sm">{wdata.pressure}pha</h3>
 							<p className="text-xs">Pressure</p>
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
@@ -150,8 +233,8 @@ const WeatherBox = () => {
 								width={40}
 								height={40}
 							/>
-							<h3>8</h3>
-							<p className="text-xs">UV</p>
+							<h3 className="text-sm">{wdata.visibility} Km</h3>
+							<p className="text-[10px]">Visibility</p>
 						</div>
 					</div>
 				</div>
