@@ -32,6 +32,8 @@ const WeatherBox = () => {
 		currenTime: '',
 		date: null,
 		currentLocation: 'Location',
+		sunrise: '',
+		sunset: '',
 	});
 	const iconBlack = {
 		width: 'auto',
@@ -51,6 +53,8 @@ const WeatherBox = () => {
 			const alldata = state.data;
 			// console.log(timeConverter(alldata.dt));
 			let todayDateTime = timeConverter(alldata.dt);
+			let sunriseTime = timeConverter(alldata.sys.sunrise);
+			let sunsetTime = timeConverter(alldata.sys.sunset);
 			dispatch({ type: 'SET_DATE', edate: todayDateTime });
 
 			// console.log(todayDateTime);
@@ -63,6 +67,8 @@ const WeatherBox = () => {
 				visibility: alldata.visibility / 1000,
 				date: todayDateTime,
 				currentLocation: state.data.name,
+				sunrise: sunriseTime.currenTime,
+				sunset: sunsetTime.currenTime,
 			});
 		}
 	}, [state.data, dispatch]);
@@ -71,7 +77,7 @@ const WeatherBox = () => {
 	return (
 		<>
 			<div className="WeatherBox flex flex-row max-sm:flex-col items-center justify-between max-sm:h-auto h-[40vh] py-3 px-2 gap-8 max-sm:py-5 max-sm:gap-4">
-				<div className="BasicInfo grow bg-l-col dark:bg-d-col w-[37%] max-sm:w-full max-sm:py-4 h-full rounded-2xl flex flex-col items-center drop-shadow-box justify-center">
+				<div className="BasicInfo grow backdrop-blur-sm bg-l-col/30 dark:bg-d-col/50 w-[37%] max-sm:w-full max-sm:py-4 h-full rounded-2xl flex flex-col items-center drop-shadow-box justify-center">
 					<div className={`Location mb-10 max-sm:mb-4 ${mpopi.className}`}>
 						<h2 className="text-4xl max-sm:text-2xl ">
 							{wdata.currentLocation}
@@ -84,7 +90,7 @@ const WeatherBox = () => {
 						<h3 className="text-xl max-sm:text-base">{wdata?.date?.toDay}</h3>
 					</div>
 				</div>
-				<div className="WeatherInfo drop-shadow-box bg-l-col dark:bg-d-col w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 flex max-sm:flex-col">
+				<div className="WeatherInfo drop-shadow-box backdrop-blur-sm bg-l-col/30 dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
 						<div className="Temperature container text-center m-auto  py-3 mb-3">
 							<h1 className="text-6xl max-sm:text-6xl">{wdata.temperature}C</h1>
@@ -104,7 +110,7 @@ const WeatherBox = () => {
 								/>
 								<div className="text-sm">
 									<h3>Sunrise</h3>
-									<p>06:37 AM</p>
+									<p>{wdata.sunrise}</p>
 								</div>
 							</div>
 							<div className="SunRise flex gap-2 items-center justify-center">
@@ -119,7 +125,7 @@ const WeatherBox = () => {
 
 								<div className="text-sm">
 									<h3>Sunset</h3>
-									<p>18:37 PM</p>
+									<p>{wdata.sunset}</p>
 								</div>
 							</div>
 						</div>

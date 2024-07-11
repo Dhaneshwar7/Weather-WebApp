@@ -31,6 +31,11 @@ const reducer = (state, action) => {
 				...state,
 				date: action.edate,
 			};
+		case 'SET_SEARCH_TERM':
+			return {
+				...state,
+				searchText: action.searchTxt,
+			};
 
 		default:
 			return state;

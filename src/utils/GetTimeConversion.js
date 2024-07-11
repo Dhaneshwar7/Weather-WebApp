@@ -7,7 +7,7 @@ export default function timeConverter(UNIX_timestamp) {
 		'Apr',
 		'May',
 		'Jun',
-		'July',
+		'Jul',
 		'Aug',
 		'Sep',
 		'Oct',
@@ -29,18 +29,20 @@ export default function timeConverter(UNIX_timestamp) {
 	var date = a.getDate();
 	var hour = a.getHours();
 	var hours = a.getHours();
+	var ampm = hours >= 12 ? 'PM' : 'AM';
 	if (hours > 12) {
 		hours -= 12;
 	} else if (hours === 0) {
 		hours = 12;
 	}
 	var min = a.getMinutes();
+	min = min < 10 ? '0' + min : min; // Add leading zero if needed
 	var sec = a.getSeconds();
+	sec = sec < 10 ? '0' + sec : sec; // Add leading zero if needed
 	var todayDateTime = {
 		toDay: day + ' , ' + date + ' ' + month,
-		currenTime: hours + 2 + ' : ' + min,
+		currenTime: hours + ' : ' + min + ' ' + ampm,
 		time: date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec,
 	};
-	// console.log(a);
 	return todayDateTime;
 }

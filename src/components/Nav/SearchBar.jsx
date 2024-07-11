@@ -1,13 +1,46 @@
-import React, { useState } from 'react'
+import { useDebounce } from '@/utils/Debounce';
+import { WeatherDataContext } from '@/utils/WeatherDataReducer';
+import Image from 'next/image';
+import React, { useContext, useEffect, useState } from 'react';
 
 const SearchBar = () => {
-	const [loading, setLoading] = useState(false);
-	
-	const handleSearchChange = () => {
-		
+	const { state, dispatch } = useContext(WeatherDataContext);
+
+	const [search, setSearch] = useState('');
+	const { debouncedValue: debouncedSearch, loading } = useDebounce(search, 900);
+
+	const handleSearchChange = e => {
+		setSearch(e.target.value);
 	};
 
-  return (
+	useEffect(() => {
+		const fetchWeatherData = async searchQuery => {
+			try {
+				const response = await fetch(
+					`https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=38563a45e910840c283837a6959d2880`
+				);
+				if (!response.ok) {
+					throw new Error('Weather data not available');
+				}
+				const data = await response.json();
+				localStorage.setItem('weather-data', JSON.stringify(data));
+				dispatch({ type: 'WEATHER_DATA', weatherData: data });
+				dispatch({ type: 'ADD_CURRENT_LOCATION', currentLocation: data.name });
+			} catch (error) {
+				console.log(error.message);
+				dispatch({ type: 'SET_ERROR', error: error.message });
+			}
+		};
+
+		if (debouncedSearch) {
+			dispatch({ type: 'SET_SEARCH_TERM', searchTxt: debouncedSearch });
+			fetchWeatherData(debouncedSearch);
+		} else {
+			dispatch({ type: 'SET_SEARCH_TERM', searchTxt: '' });
+		}
+	}, [debouncedSearch, dispatch]);
+
+	return (
 		<div className="SearchBar">
 			<div className="container mx-auto flex max-sm:px-1  p-1">
 				<form action="/search" className="max-sm:w-full ml-12 max-sm:ml-0">
@@ -23,22 +56,19 @@ const SearchBar = () => {
 							onChange={handleSearchChange}
 							className="px-10 ml-7 max-sm:ml-2 dark:text-white text-black tracking-wider font-semibold text-base py-1 max-sm:py-0 w-full max-sm:w-2/3 max-sm:px-2 rounded-md flex-1 outline-none bg-transparent dark:placeholder:text-gray-400 max-sm:placeholder:text-xs dark:placeholder:text-opacity-80 placeholder:text-gray-400 placeholder:w-[150%]"
 						/>
-						<button
-							type="submit"
-							className="w-full md:w-auto ml-12 max-sm:ml-0 px-6 max-sm:p-1 py-2 max-sm:w-1/4 bg-black border-black text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-full transition-all"
-						>
+						<button className="w-full md:w-auto ml-12 max-sm:ml-0 px-6 max-sm:p-1 py-2 max-sm:w-1/4 bg-black border-black text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-full transition-all">
 							<div className="flex items-center transition-all opacity-1">
 								{loading ? (
-									<span className="text-sm font-semibold whitespace-nowrap truncate mx-auto">
-										{/* <Image
-													src="/loading.gif"
-													width={20}
-													height={20}
-													alt="Searching🔍"
-												/> */}
+									<span className="text-sm max-w-16	 font-semibold whitespace-nowrap truncate mx-auto">
+										<Image
+											src="/loading.gif"
+											width={20}
+											height={20}
+											alt="Searching🔍"
+										/>
 									</span>
 								) : (
-									<span className="text-sm max-sm:text-[10px] font-semibold whitespace-nowrap truncate mx-auto">
+									<span className="text-sm max-sm:text-[10px] max-w-16	 font-semibold whitespace-nowrap truncate mx-auto">
 										Search
 									</span>
 								)}
@@ -49,6 +79,6 @@ const SearchBar = () => {
 			</div>
 		</div>
 	);
-}
+};
 
-export default SearchBar
+export default SearchBar;
