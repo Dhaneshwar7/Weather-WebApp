@@ -14,27 +14,30 @@ const CurrentLocation = () => {
 	const handleLocationFetched = loc => {
 		setLocation(loc);
 	};
-	const fetchWeatherData = useCallback(async (lat, long) => {
-		try {
-			const response = await fetch(
-				`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=38563a45e910840c283837a6959d2880`
-			);
-			if (!response.ok) {
-				throw new Error('Weather data not available');
+	const fetchWeatherData = useCallback(
+		async (lat, long) => {
+			try {
+				const response = await fetch(
+					`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=38563a45e910840c283837a6959d2880`
+				);
+				if (!response.ok) {
+					throw new Error('Weather data not available');
+				}
+				const data = await response.json();
+				setWeatherData(data);
+				setCurrentLocaton(data.name);
+				dispatch({ type: 'ADD_CURRENT_LOCATION', currentLoc: data.name });
+				dispatch({ type: 'WEATHER_DATA', weatherData: data });
+				localStorage.setItem('current-location', data.name);
+				localStorage.setItem('weather-data', JSON.stringify(data));
+			} catch (error) {
+				// console.error('Error fetching weather data:', error);
+				setError(error.message);
+				dispatch({ type: 'SET_ERROR', error: error.message });
 			}
-			const data = await response.json();
-			setWeatherData(data);
-			setCurrentLocaton(data.name);
-			dispatch({ type: 'ADD_CURRENT_LOCATION', currentLoc: data.name });
-			dispatch({ type: 'WEATHER_DATA', weatherData: data });
-			localStorage.setItem('current-location', data.name);
-			localStorage.setItem('weather-data', JSON.stringify(data));
-		} catch (error) {
-			// console.error('Error fetching weather data:', error);
-			setError(error.message);
-			dispatch({ type: 'SET_ERROR', error: error.message });
-		}
-	}, []);
+		},
+		[dispatch]
+	);
 	const handleClick = async () => {
 		try {
 			const location = await fetchCurrentLocation(handleLocationFetched);
@@ -49,13 +52,13 @@ const CurrentLocation = () => {
 		if (location.latitude && location.longitude) {
 			fetchWeatherData(location.latitude, location.longitude);
 		}
-	}, [location, fetchWeatherData, dispatch]);
+	}, [location, fetchWeatherData]);
 
 	// console.log(weatherData);
 
 	useEffect(() => {
 		setMount(true);
-	});
+	},[]);
 
 	if (!mount) return null;
 	return (

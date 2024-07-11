@@ -3,7 +3,6 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Poppins } from 'next/font/google';
 import Nav from '@/components/Nav/Nav';
 import WeatherBox from '@/components/WeatherComponents/WeatherBox';
-import GeoLocation from '@/utils/Geolocation';
 import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 
 const popi = Poppins({ weight: '600', display: 'swap', subsets: ['latin'] });
@@ -47,10 +46,6 @@ export default function Home() {
 			>
 				<Nav />
 				<WeatherBox />
-				<GeoLocation
-					ref={geoLocationRef}
-					onLocationFetched={handleLocationFetched}
-				/>
 
 				<p>
 					Latitude: {location.latitude} <br />
