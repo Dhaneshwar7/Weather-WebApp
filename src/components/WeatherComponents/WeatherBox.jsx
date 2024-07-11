@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Mochiy_Pop_One } from 'next/font/google';
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import uvSvg from '../../../public/Icons/uv.svg';
 import bigSunSvg from '../../../public/Icons/BigSunPic.svg';
 import sunRise from '../../../public/Icons/sunrise.svg';
 import sunSet from '../../../public/Icons/sunset.svg';
+import { useTheme } from 'next-themes';
 
 const mpopi = Mochiy_Pop_One({
 	weight: '400',
@@ -16,6 +17,24 @@ const mpopi = Mochiy_Pop_One({
 	subsets: ['latin'],
 });
 const WeatherBox = () => {
+	const { theme, setTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+	const iconBlack = {
+		width: 'auto',
+		height: 'auto',
+		filter: 'invert(1) brightness(0)',
+	};
+	const iconWhite = {
+		width: 'auto',
+		height: 'auto',
+		filter: 'invert(0) brightness(1)',
+	};
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) return null;
 	return (
 		<>
 			<div className="WeatherBox flex flex-row max-sm:flex-col items-center justify-between max-sm:h-auto h-[40vh] py-3 px-2 gap-8 max-sm:py-5 max-sm:gap-4">
@@ -39,8 +58,10 @@ const WeatherBox = () => {
 						<div className="SunRiseSunSet container flex items-center justify-center flex-col gap-2 m-auto">
 							<div className="SunRise flex gap-2 items-center justify-center">
 								<Image
+									priority={true}
 									alt="weather pics"
 									src={sunRise}
+									style={theme === 'light' ? iconBlack : iconWhite}
 									width={48}
 									height={48}
 								/>
@@ -50,7 +71,14 @@ const WeatherBox = () => {
 								</div>
 							</div>
 							<div className="SunRise flex gap-2 items-center justify-center">
-								<Image alt="weather pics" src={sunSet} width={48} height={48} />
+								<Image
+									priority={true}
+									alt="weather pics"
+									src={sunSet}
+									style={theme === 'light' ? iconBlack : iconWhite}
+									width={48}
+									height={48}
+								/>
 
 								<div className="text-sm">
 									<h3>Sunset</h3>
@@ -62,7 +90,12 @@ const WeatherBox = () => {
 					<div className="Middle m-auto container h-full">
 						<div className="SunImage">
 							<div className="w-48 block h-48 max-sm:w-32 max-sm:h-32 m-auto">
-								<Image alt="weather pics" src={bigSunSvg} />
+								<Image
+									priority={true}
+									alt="weather pics"
+									src={bigSunSvg}
+									style={{ width: 'auto', heigh: 'auto' }}
+								/>
 							</div>
 							<h3
 								className={`text-center text-3xl max-sm:text-xl italic ${mpopi.className}`}
@@ -74,9 +107,10 @@ const WeatherBox = () => {
 					<div className="Right m-auto container  h-full grid grid-cols-2 gap-2">
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
 							<Image
+								priority={true}
 								alt="weather pics"
 								src={humiditySvg}
-								style={{ width: 'auto', height: 'auto' }}
+								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
 							/>
@@ -85,9 +119,10 @@ const WeatherBox = () => {
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
 							<Image
+								priority={true}
 								alt="weather pics"
 								src={windspeedSvg}
-								style={{ width: 'auto', height: 'auto' }}
+								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
 							/>
@@ -96,23 +131,22 @@ const WeatherBox = () => {
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
 							<Image
+								priority={true}
 								alt="weather pics"
 								src={pressureSvg}
-								style={{ width: 'auto', height: 'auto' }}
+								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
 							/>
 							<h3>997pha</h3>
 							<p className="text-xs">Pressure</p>
 						</div>
-						<div className="text-center m-auto flex  flex-col w-full justify-evenly items-center gap-1">
+						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
 							<Image
+								priority={true}
 								alt="weather pics"
 								src={uvSvg}
-								style={{
-									width: 'auto',
-									height: 'auto',
-								}}
+								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
 							/>
