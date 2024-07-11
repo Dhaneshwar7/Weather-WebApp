@@ -4,7 +4,7 @@ const Darkmode = ({setTheme,theme}) => {
   return (
 		<div className="DarkModeButton relative">
 			<button
-				onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+				onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
 				className="text-white bg-black rounded-full p-1  dark:text-black dark:bg-white flex items-center drop-shadow-lg	"
 			>
 				<label
