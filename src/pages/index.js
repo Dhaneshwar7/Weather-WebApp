@@ -38,7 +38,7 @@ export default function Home() {
 			type: 'ADD_CURRENT_LOCATION',
 			currentLocation: localStorage.getItem('current-location'),
 		});
-	}, []);
+	}, [dispatch]);
 	if (!mounted) return null;
 	return (
 		<>

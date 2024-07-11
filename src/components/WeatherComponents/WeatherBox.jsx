@@ -114,7 +114,7 @@ const WeatherBox = () => {
 				visibility: alldata.visibility / 1000,
 			});
 		}
-	}, []);
+	}, [state.data]);
 
 	if (!mounted) return null;
 	return (

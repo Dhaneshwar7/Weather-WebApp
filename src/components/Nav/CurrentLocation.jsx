@@ -49,7 +49,7 @@ const CurrentLocation = () => {
 		if (location.latitude && location.longitude) {
 			fetchWeatherData(location.latitude, location.longitude);
 		}
-	}, [location, fetchWeatherData]);
+	}, [location, fetchWeatherData, dispatch]);
 
 	// console.log(weatherData);
 
