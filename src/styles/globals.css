@@ -2,8 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-
-body {
-  color: rgb(var(--foreground-rgb));
-
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+html,body{
+   height: 100%;
+   width: 100%;
+}
+#main{
+    height: 100%;
+    width: 100%;
+    background-color: red;
 }
