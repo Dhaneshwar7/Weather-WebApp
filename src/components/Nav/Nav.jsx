@@ -85,7 +85,7 @@ const Nav = () => {
 									name="search"
 									required={true}
 									onChange={handleSearchChange}
-									className="px-5 ml-7 max-sm:ml-2 dark:text-white text-black tracking-wider font-semibold text-base py-1 max-sm:py-0 w-full max-sm:w-2/3 max-sm:px-2 rounded-md flex-1 outline-none bg-transparent dark:placeholder:text-gray-400 max-sm:placeholder:text-xs dark:placeholder:text-opacity-80 placeholder:text-gray-400 "
+									className="px-10 ml-7 max-sm:ml-2 dark:text-white text-black tracking-wider font-semibold text-base py-1 max-sm:py-0 w-full max-sm:w-2/3 max-sm:px-2 rounded-md flex-1 outline-none bg-transparent dark:placeholder:text-gray-400 max-sm:placeholder:text-xs dark:placeholder:text-opacity-80 placeholder:text-gray-400 placeholder:w-[150%]"
 								/>
 								<button
 									type="submit"

@@ -5,6 +5,5 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  box-shadow: 0 35px 35px rgba(145, 144, 144, 0.25);
 
 }
