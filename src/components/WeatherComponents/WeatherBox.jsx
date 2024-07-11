@@ -28,7 +28,7 @@ const WeatherBox = () => {
 						<h3 className="text-xl max-sm:text-base">Thursday, 31 Aug</h3>
 					</div>
 				</div>
-				<div className="WeatherInfo drop-shadow-box bg-l-col dark:bg-d-col w-3/5 h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 flex max-sm:flex-col">
+				<div className="WeatherInfo drop-shadow-box bg-l-col dark:bg-d-col w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
 						<div className="Temperature container text-center m-auto  py-3 mb-3">
 							<h1 className="text-6xl max-sm:text-6xl">24 C </h1>
