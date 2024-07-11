@@ -7,16 +7,14 @@ import CurrentLocation from './CurrentLocation';
 const Nav = () => {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
-	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		setMounted(true);
 	}, []);
-	const handleSearchChange = () => {};
 
 	if (!mounted) return null;
 	return (
 		<>
-			<nav className="flex items-center justify-between w-full ">
+			<nav className="flex items-center justify-between w-full z-50 top-0">
 				<Darkmode setTheme={setTheme} theme={theme} />
 				<SearchBar setTheme={setTheme} theme={theme} />
 				<CurrentLocation setTheme={setTheme} theme={theme} />

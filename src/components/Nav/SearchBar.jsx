@@ -43,7 +43,10 @@ const SearchBar = () => {
 	return (
 		<div className="SearchBar">
 			<div className="container mx-auto flex max-sm:px-1  p-1">
-				<form action="/search" className="max-sm:w-full ml-12 max-sm:ml-0">
+				<form
+					onSubmit={e => e.preventDefault()}
+					className="max-sm:w-full ml-12 max-sm:ml-0"
+				>
 					<label
 						className="mx-auto max-sm:mt-0 relative max-sm:flex max-sm:justify-betwee max-sm:whitespace-nowrap max-sm:flex-row bg-gray-100 dark:bg-d-col min-w-xl max-w-2xl max-sm:max-w-sm flex flex-col md:flex-row items-center justify-center border-[.8px] border-zinc-400 py-1 px-2 rounded-full gap-2 shadow-2xl  focus-within:border-gray-300 drop-shadow-lg dark:drop-shadow-3xl"
 						htmlFor="search"

@@ -56,8 +56,8 @@ const Darkmode = ({setTheme,theme}) => {
 					</div>
 				</label>
 			</button>
-			<div className="absolute flex-wrap whitespace-nowrap text-xs max-sm:text-[10px] mt-1">
-				{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+			<div className="absolute text-center m-auto container flex-wrap whitespace-nowrap text-xs max-sm:text-[10px] mt-1">
+				{theme === 'dark' ? 'Dark' : 'Light'}
 			</div>
 		</div>
 	);

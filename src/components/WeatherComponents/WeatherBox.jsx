@@ -90,11 +90,11 @@ const WeatherBox = () => {
 						<h3 className="text-xl max-sm:text-base">{wdata?.date?.toDay}</h3>
 					</div>
 				</div>
-				<div className="WeatherInfo drop-shadow-box backdrop-blur-sm bg-l-col/30 dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 flex max-sm:flex-col">
+				<div className="WeatherInfo drop-shadow-box backdrop-blur-sm bg-l-col/30 dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
-						<div className="Temperature container text-center m-auto  py-3 mb-3">
+						<div className="Temperature container text-center m-auto  py-3 mb-3 max-sm:mb-0">
 							<h1 className="text-6xl max-sm:text-6xl">{wdata.temperature}C</h1>
-							<div className="FeelLike">
+							<div className="FeelLike max-sm:mt-2">
 								<h3> Feels Like : {wdata.feelsLike}</h3>{' '}
 							</div>
 						</div>
@@ -107,6 +107,7 @@ const WeatherBox = () => {
 									style={theme === 'light' ? iconBlack : iconWhite}
 									width={48}
 									height={48}
+									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75"
 								/>
 								<div className="text-sm">
 									<h3>Sunrise</h3>
@@ -121,6 +122,7 @@ const WeatherBox = () => {
 									style={theme === 'light' ? iconBlack : iconWhite}
 									width={48}
 									height={48}
+									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75"
 								/>
 
 								<div className="text-sm">
@@ -156,6 +158,7 @@ const WeatherBox = () => {
 								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
+								className="max-sm:scale-75"
 							/>
 							<h3 className="text-sm">{wdata.humidity}%</h3>
 							<p className="text-xs">Humidity</p>
@@ -168,7 +171,7 @@ const WeatherBox = () => {
 								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
-								className="-mt-1"
+								className="-mt-1 max-sm:scale-75"
 							/>
 							<h3 className="text-sm">{wdata.windy}Km/h</h3>
 							<p className="text-xs">Wind Speed</p>
@@ -181,6 +184,7 @@ const WeatherBox = () => {
 								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
+								className="max-sm:scale-75"
 							/>
 							<h3 className="text-sm">{wdata.pressure}pha</h3>
 							<p className="text-xs">Pressure</p>
@@ -193,6 +197,7 @@ const WeatherBox = () => {
 								style={theme === 'light' ? iconBlack : iconWhite}
 								width={40}
 								height={40}
+								className="max-sm:scale-75"
 							/>
 							<h3 className="text-sm">{wdata.visibility} Km</h3>
 							<p className="text-[10px]">Visibility</p>

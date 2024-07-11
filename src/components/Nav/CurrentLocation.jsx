@@ -76,7 +76,7 @@ const CurrentLocation = () => {
 					onClick={handleClick}
 					className="w-full md:w-auto px-3 max-sm:p-1 py-2 max-sm:w-full dark:bg-green-700 text-black dark:text-gray-100 dark:hover:bg-green-600 bg-green-400 hover:bg-green-500 border-black fill-white active:scale-95 duration-100 border-[.5px] will-change-transform overflow-hidden relative rounded-full transition-all"
 				>
-					<div className="flex items-center transition-all opacity-1 gap-1">
+					<div className="flex relative items-center transition-all opacity-1 gap-1">
 						<span className="text-sm max-sm:text-xs font-semibold whitespace-nowrap truncate mx-auto">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -92,12 +92,9 @@ const CurrentLocation = () => {
 						</span>
 					</div>
 				</button>
-				{/* {location && (
-					<div>
-						<p>Latitude: {location.latitude}</p>
-						<p>Longitude: {location.longitude}</p>
-					</div>
-				)} */}
+				<div className="absolute hidden max-sm:block	 -bottom-1/2 text-center m-auto container flex-wrap whitespace-nowrap text-xs max-sm:text-[10px] mt-1">
+					{currentLocation}
+				</div>
 			</label>
 		</div>
 	);
