@@ -28,7 +28,7 @@ export default function Home({ data, forecastData }) {
 			localStorage.setItem('weather-data', JSON.stringify(data));
 			localStorage.setItem('forecast-data', JSON.stringify(forecastData));
 		}
-	}, [data, dispatch, forecastData]);
+	}, [data, dispatch, forecastData, timezone]);
 
 	useEffect(() => {
 		setMounted(true);

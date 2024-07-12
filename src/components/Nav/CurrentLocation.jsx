@@ -48,11 +48,11 @@ const CurrentLocation = () => {
 			}
 		};
 		getWeatherData();
-	}, [location, fetchWeatherData]);
+	}, [location,dispatch]);
 
 	useEffect(() => {
 		setMount(true);
-	}, []);
+	}, [dispatch]);
 
 	if (!mount) return null;
 	return (

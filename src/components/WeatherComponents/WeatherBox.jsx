@@ -74,7 +74,7 @@ const WeatherBox = () => {
 				sunset: sunsetTime.currenTime,
 			});
 		}
-	}, [state.data, dispatch]);
+	}, [state.data, state.timezone]);
 
 	if (!mounted) return null;
 	return (
@@ -97,7 +97,9 @@ const WeatherBox = () => {
 				<div className="WeatherInfo drop-shadow-box dark:drop-shadow-dark  bg-l-col dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
 						<div className="Temperature container text-center m-auto  py-3 mb-3 max-sm:mb-0">
-							<h1 className="text-6xl max-sm:text-6xl">{wdata.temperature}C</h1>
+							<h1 className="text-6xl max-sm:text-6xl">
+								{wdata.temperature}℃C
+							</h1>
 							<div className="FeelLike max-sm:mt-2">
 								<h3> Feels Like : {wdata.feelsLike}</h3>{' '}
 							</div>
