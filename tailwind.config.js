@@ -10,7 +10,8 @@ module.exports = {
 		extend: {
 			dropShadow: {
 				'3xl': '0 10px 15px rgba(145, 144, 144, 0.25)',
-				box: '12px 12px 8px #757575',
+				box: '6px 6px 8px #d9d9d9',
+				dark: '6px 6px 8px #e0e0e0',
 			},
 			backgroundColor: {
 				'd-col': '#444444',

@@ -14,7 +14,7 @@ const Nav = () => {
 	if (!mounted) return null;
 	return (
 		<>
-			<nav className="flex items-center justify-between w-full z-50 top-0">
+			<nav className="flex items-center justify-between w-full z-50 top-0 max-sm:px-4">
 				<Darkmode setTheme={setTheme} theme={theme} />
 				<SearchBar setTheme={setTheme} theme={theme} />
 				<CurrentLocation setTheme={setTheme} theme={theme} />
