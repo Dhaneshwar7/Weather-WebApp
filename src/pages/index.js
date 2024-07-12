@@ -6,19 +6,16 @@ import WeatherBox from '@/components/WeatherComponents/WeatherBox';
 import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 import fetchCurrentLocation from '@/utils/GetLoc';
 
-const popi = Poppins({ weight: '600', display: 'swap', subsets: ['latin'],preload:true });
-export default function Home({ data }) {
+const popi = Poppins({
+	weight: '600',
+	display: 'swap',
+	subsets: ['latin'],
+	preload: true,
+});
+export default function Home({ data, forecastData }) {
 	const { state, dispatch } = useContext(WeatherDataContext);
 	const [mounted, setMounted] = useState(false);
-	// const [currentLocation, setCurrentLocation] = useState('Current Location');
-
-	// console.log(data);
-	// console.log(state);
-	// 	let params = new URLSearchParams({
-	// 		q: 'London',
-	// 		limit: '2',
-	// 		appid: 'fe7525cb58077d1151f33f61b2576dc5',
-	// 	});
+	const [timezone, setTimezone] = useState(forecastData?.city.timezone);
 
 	useEffect(() => {
 		if (!localStorage.getItem('lat')) {
@@ -26,9 +23,12 @@ export default function Home({ data }) {
 				type: 'WEATHER_DATA',
 				weatherData: data,
 			});
+			dispatch({ type: 'FORECAST_DATA', forecastData });
+			dispatch({ type: 'SET_TIMEZONE', zone: timezone });
 			localStorage.setItem('weather-data', JSON.stringify(data));
+			localStorage.setItem('forecast-data', JSON.stringify(forecastData));
 		}
-	}, [data, dispatch]);
+	}, [data, dispatch, forecastData]);
 
 	useEffect(() => {
 		setMounted(true);
@@ -55,7 +55,6 @@ export default function Home({ data }) {
 					<Nav />
 				</div>
 				<WeatherBox />
-				<WeatherBox />
 			</main>
 		</>
 	);
@@ -64,6 +63,7 @@ export default function Home({ data }) {
 export async function getStaticProps() {
 	let cord = { lat: 22.72, long: 75.86 };
 	let data;
+	let forecastData;
 	try {
 		const response = await fetch(
 			`https://api.openweathermap.org/data/2.5/weather?lat=${cord.lat}&lon=${cord.long}&appid=38563a45e910840c283837a6959d2880`
@@ -72,6 +72,18 @@ export async function getStaticProps() {
 			throw new Error('Weather data not available');
 		}
 		data = await response.json();
+
+		const forecastResponse = await fetch(
+			`https://api.openweathermap.org/data/2.5/forecast?lat=${cord.lat}&lon=${cord.long}&appid=38563a45e910840c283837a6959d2880`,
+			{
+				next: { revalidate: 10 },
+			}
+		);
+
+		if (!forecastResponse.ok) {
+			throw new Error('Forecast data not available');
+		}
+		forecastData = await forecastResponse.json();
 	} catch (error) {
 		console.log(error.message);
 	}
@@ -79,6 +91,7 @@ export async function getStaticProps() {
 	return {
 		props: {
 			data: data || null,
+			forecastData: forecastData || null,
 		},
 		revalidate: 10,
 	};

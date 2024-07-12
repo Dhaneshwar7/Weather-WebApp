@@ -18,7 +18,24 @@ export const fetchWeatherData = async (lat, long) => {
 		currentLocation = data.name;
 		localStorage.setItem('current-location', data.name);
 		localStorage.setItem('weather-data', JSON.stringify(data));
-		return { data, currentLocation };
+
+		const forecastResponse = await fetch(
+			`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=38563a45e910840c283837a6959d2880`,
+			{
+				next: { revalidate: 10 },
+			}
+		);
+
+		if (!forecastResponse.ok) {
+			throw new Error('Forecast data not available');
+		}
+
+		const forecastData = await forecastResponse.json();
+		localStorage.setItem('forecast-data', JSON.stringify(forecastData));
+
+		// console.log(forecastData);
+
+		return { data, currentLocation, forecastData };
 	} catch (error) {
 		console.error('Error fetching weather data:', error);
 		return { error: error.message };

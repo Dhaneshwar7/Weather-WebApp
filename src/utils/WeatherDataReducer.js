@@ -2,8 +2,10 @@ import { createContext, useMemo, useReducer } from 'react';
 
 const initialState = {
 	data: [],
+	forecastData: [],
 	searchText: '',
 	error: '',
+	timezone: '',
 	currentLocation: 'Current Location',
 	date: null,
 };
@@ -14,6 +16,16 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				data: action.weatherData,
+			};
+		case 'FORECAST_DATA':
+			return {
+				...state,
+				forecastData: action.forecastData,
+			};
+		case 'SET_TIMEZONE':
+			return {
+				...state,
+				timezone: action.zone,
 			};
 		case 'ADD_CURRENT_LOCATION':
 			return {

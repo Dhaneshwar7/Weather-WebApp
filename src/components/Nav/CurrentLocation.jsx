@@ -32,13 +32,16 @@ const CurrentLocation = () => {
 	useEffect(() => {
 		const getWeatherData = async (lat, long) => {
 			if (location.latitude && location.longitude) {
-				const { data, currentLocation, error } = await fetchWeatherData(
-					location.latitude,
-					location.longitude
-				);
+				const { data, currentLocation, error, forecastData } =
+					await fetchWeatherData(location.latitude, location.longitude);
+				// console.log(forecastData.city.timezone);
+				let timezone = forecastData.city.timezone;
 				setCurrentLocaton(currentLocation);
 				setError(error);
 				localStorage.setItem('weather-data', JSON.stringify(data));
+				localStorage.setItem('forecast-data', JSON.stringify(forecastData));
+				dispatch({ type: 'FORECAST_DATA', forecastData });
+				dispatch({ type: 'SET_TIMEZONE', zone: timezone });
 				dispatch({ type: 'WEATHER_DATA', weatherData: data });
 				dispatch({ type: 'ADD_CURRENT_LOCATION', currentLocation: data.name });
 				// console.log(dataa);

@@ -12,6 +12,7 @@ import sunSet from '../../../public/Icons/sunset.svg';
 import { useTheme } from 'next-themes';
 import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 import timeConverter from '@/utils/GetTimeConversion';
+import Clock from './Cloack';
 
 const mpopi = Mochiy_Pop_One({
 	weight: '400',
@@ -23,6 +24,7 @@ const WeatherBox = () => {
 	const { state, dispatch } = useContext(WeatherDataContext);
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
+	const [timezone, setTimezone] = useState(state.timezone);
 	const [wdata, setWData] = useState({
 		feelsLike: '',
 		humidity: '',
@@ -52,12 +54,12 @@ const WeatherBox = () => {
 		if (state.data) {
 			const result = state.data.main;
 			const alldata = state.data;
+			setTimezone(state.timezone);
 			// console.log(timeConverter(alldata.dt));
 			let todayDateTime = timeConverter(alldata.dt);
 			let sunriseTime = timeConverter(alldata.sys.sunrise);
 			let sunsetTime = timeConverter(alldata.sys.sunset);
 			dispatch({ type: 'SET_DATE', edate: todayDateTime });
-
 			// console.log(todayDateTime);
 			setWData({
 				temperature: (result.temp - 273.15).toFixed(1),
@@ -80,15 +82,16 @@ const WeatherBox = () => {
 			<div className="WeatherBox flex  dark:text-white text-neutral-800 flex-row max-sm:flex-col items-center justify-between max-sm:h-auto h-[40vh] py-3 px-2 gap-8 max-sm:py-5 max-sm:gap-4">
 				<div className="BasicInfo grow  bg-l-col dark:drop-shadow-dark dark:bg-d-col/50 w-[37%] max-sm:w-full max-sm:py-4 h-full rounded-2xl flex flex-col items-center drop-shadow-box justify-center">
 					<div className={`Location mb-10 max-sm:mb-4 ${mpopi.className}`}>
-						<h2 className="text-4xl max-sm:text-2xl ">
+						<h2 className="text-5xl max-sm:text-2xl ">
 							{wdata.currentLocation}
 						</h2>
 					</div>
 					<div className="Time text-center">
-						<h1 className="text-6xl max-sm:text-4xl">
-							{wdata?.date?.currenTime}
+						<h1 className="text-4xl max-sm:text-4xl">
+							{/* {wdata?.date?.currenTime} */}
+							<Clock timestamp={Date.now()} timezoneOffsetSeconds={timezone} />
 						</h1>
-						<h3 className="text-xl max-sm:text-base">{wdata?.date?.toDay}</h3>
+						<h3 className="text-lg max-sm:text-base">{wdata?.date?.toDay}</h3>
 					</div>
 				</div>
 				<div className="WeatherInfo drop-shadow-box dark:drop-shadow-dark  bg-l-col dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
