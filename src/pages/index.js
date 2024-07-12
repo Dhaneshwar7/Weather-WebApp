@@ -6,7 +6,7 @@ import WeatherBox from '@/components/WeatherComponents/WeatherBox';
 import { WeatherDataContext } from '@/utils/WeatherDataReducer';
 import fetchCurrentLocation from '@/utils/GetLoc';
 
-const popi = Poppins({ weight: '600', display: 'swap', subsets: ['latin'] });
+const popi = Poppins({ weight: '600', display: 'swap', subsets: ['latin'],preload:true });
 export default function Home({ data }) {
 	const { state, dispatch } = useContext(WeatherDataContext);
 	const [mounted, setMounted] = useState(false);

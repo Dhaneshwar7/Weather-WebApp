@@ -17,6 +17,7 @@ const mpopi = Mochiy_Pop_One({
 	weight: '400',
 	display: 'swap',
 	subsets: ['latin'],
+	preload: true,
 });
 const WeatherBox = () => {
 	const { state, dispatch } = useContext(WeatherDataContext);
@@ -76,7 +77,7 @@ const WeatherBox = () => {
 	if (!mounted) return null;
 	return (
 		<>
-			<div className="WeatherBox flex flex-row max-sm:flex-col items-center justify-between max-sm:h-auto h-[40vh] py-3 px-2 gap-8 max-sm:py-5 max-sm:gap-4">
+			<div className="WeatherBox flex  dark:text-white text-neutral-800 flex-row max-sm:flex-col items-center justify-between max-sm:h-auto h-[40vh] py-3 px-2 gap-8 max-sm:py-5 max-sm:gap-4">
 				<div className="BasicInfo grow  bg-l-col dark:drop-shadow-dark dark:bg-d-col/50 w-[37%] max-sm:w-full max-sm:py-4 h-full rounded-2xl flex flex-col items-center drop-shadow-box justify-center">
 					<div className={`Location mb-10 max-sm:mb-4 ${mpopi.className}`}>
 						<h2 className="text-4xl max-sm:text-2xl ">
@@ -107,7 +108,7 @@ const WeatherBox = () => {
 									style={theme === 'light' ? iconBlack : iconWhite}
 									width={48}
 									height={48}
-									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75"
+									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75 w-auto h-auto"
 								/>
 								<div className="text-sm">
 									<h3>Sunrise</h3>

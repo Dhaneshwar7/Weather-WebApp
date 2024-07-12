@@ -64,6 +64,7 @@ const SearchBar = () => {
 								{loading ? (
 									<span className="text-sm max-w-16	 font-semibold whitespace-nowrap truncate mx-auto">
 										<Image
+											priority={true}
 											src="/loading.gif"
 											width={20}
 											height={20}
