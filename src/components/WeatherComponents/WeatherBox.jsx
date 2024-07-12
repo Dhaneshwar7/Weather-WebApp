@@ -74,7 +74,7 @@ const WeatherBox = () => {
 				sunset: sunsetTime.currenTime,
 			});
 		}
-	}, [state.timezone]);
+	}, [dispatch, state.data, state.timezone]);
 
 	if (!mounted) return null;
 	return (
