@@ -14,7 +14,7 @@ module.exports = {
 			},
 			backgroundColor: {
 				'd-col': '#444444',
-				'l-col': '#D9D9D9',
+				'l-col': '#ffffff',
 			},
 			backgroundImage: {
 				'dark-lg':
