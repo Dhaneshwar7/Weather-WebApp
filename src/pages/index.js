@@ -47,7 +47,7 @@ export default function Home({ data }) {
 			<main
 				className={`w-screen ${popi.className} min-h-screen relative max-h-fit py-8 px-10 max-sm:py-4 max-sm:px-3  bg-light-lg dark:bg-dark-lg transition-[background-image] duration-2000`}
 			>
-				<div className="w-full pt-5  h-[10vh] hidden max-sm:block bg-gray-300 backdrop-blur-xl sticky z-50 m-auto top-0 left-0 right-0">
+				<div className="w-full pt-5 container rounded-xl h-[10vh] hidden max-sm:block bg-gray-300 backdrop-blur-xl sticky z-50 m-auto top-0 left-0 right-0">
 					<Nav />
 				</div>
 

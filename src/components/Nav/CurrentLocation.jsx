@@ -92,8 +92,8 @@ const CurrentLocation = () => {
 						</span>
 					</div>
 				</button>
-				<div className="absolute hidden max-sm:block	 -bottom-1/2 text-center m-auto container flex-wrap whitespace-nowrap text-xs max-sm:text-[10px] mt-1">
-					{currentLocation}
+				<div className="absolute hidden max-sm:block -bottom-1/2 text-center m-auto container flex-wrap whitespace-nowrap text-xs max-sm:text-[10px] mt-1">
+					{currentLocation === 'Current Location' ? '' : currentLocation}
 				</div>
 			</label>
 		</div>
