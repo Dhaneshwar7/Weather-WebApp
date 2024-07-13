@@ -98,10 +98,10 @@ const WeatherBox = () => {
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
 						<div className="Temperature container text-center m-auto  py-3 mb-3 max-sm:mb-0">
 							<h1 className="text-6xl max-sm:text-6xl">
-								{wdata.temperature}℃C
+								{wdata.temperature} &deg;C
 							</h1>
 							<div className="FeelLike max-sm:mt-2">
-								<h3> Feels Like : {wdata.feelsLike}</h3>{' '}
+								<h3> Feels Like : {wdata.feelsLike}&deg;C</h3>{' '}
 							</div>
 						</div>
 						<div className="SunRiseSunSet container flex items-center justify-center flex-col gap-2 m-auto">
@@ -128,7 +128,7 @@ const WeatherBox = () => {
 									style={theme === 'light' ? iconBlack : iconWhite}
 									width={48}
 									height={48}
-									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75"
+									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75 w-auto h-auto"
 								/>
 
 								<div className="text-sm">
