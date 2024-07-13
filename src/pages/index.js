@@ -1,4 +1,3 @@
-'use client';
 import Image from 'next/image';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Poppins } from 'next/font/google';
