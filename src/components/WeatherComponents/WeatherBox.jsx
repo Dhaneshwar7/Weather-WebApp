@@ -50,29 +50,33 @@ const WeatherBox = () => {
 	};
 
 	useEffect(() => {
-		setMounted(true);
-		if (state.data) {
-			const result = state.data.main;
-			const alldata = state.data;
-			setTimezone(state.timezone);
-			// console.log(timeConverter(alldata.dt));
-			let todayDateTime = timeConverter(alldata.dt);
-			let sunriseTime = timeConverter(alldata.sys.sunrise);
-			let sunsetTime = timeConverter(alldata.sys.sunset);
-			dispatch({ type: 'SET_DATE', edate: todayDateTime });
-			// console.log(todayDateTime);
-			setWData({
-				temperature: (result.temp - 273.15).toFixed(1),
-				feelsLike: (result.feels_like - 273.15).toFixed(2),
-				humidity: result.humidity,
-				pressure: result.pressure,
-				windy: parseFloat(alldata.wind.speed * 3.6).toFixed(2),
-				visibility: alldata.visibility / 1000,
-				date: todayDateTime,
-				currentLocation: state.data.name,
-				sunrise: sunriseTime.currenTime,
-				sunset: sunsetTime.currenTime,
-			});
+		try {
+			setMounted(true);
+			if (state.data) {
+				const result = state.data.main;
+				const alldata = state.data;
+				setTimezone(state.timezone);
+				// console.log(timeConverter(alldata.dt));
+				let todayDateTime = timeConverter(alldata.dt);
+				let sunriseTime = timeConverter(alldata.sys.sunrise);
+				let sunsetTime = timeConverter(alldata.sys.sunset);
+				dispatch({ type: 'SET_DATE', edate: todayDateTime });
+				// console.log(todayDateTime);
+				setWData({
+					temperature: (result.temp - 273.15).toFixed(1),
+					feelsLike: (result.feels_like - 273.15).toFixed(2),
+					humidity: result.humidity,
+					pressure: result.pressure,
+					windy: parseFloat(alldata.wind.speed * 3.6).toFixed(2),
+					visibility: alldata.visibility / 1000,
+					date: todayDateTime,
+					currentLocation: state.data.name,
+					sunrise: sunriseTime.currenTime,
+					sunset: sunsetTime.currenTime,
+				});
+			}
+		} catch (error) {
+			console.error('Error in WeatherBox.jsx- useEffect:', error);
 		}
 	}, [dispatch, state.data, state.timezone]);
 
@@ -101,7 +105,10 @@ const WeatherBox = () => {
 								{wdata.temperature}&deg;C
 							</h1>
 							<div className="FeelLike max-sm:mt-2">
-								<h3 className='max-sm:text-[15px]'> Feels Like : {wdata.feelsLike}&deg;C</h3>{' '}
+								<h3 className="max-sm:text-[15px]">
+									{' '}
+									Feels Like : {wdata.feelsLike}&deg;C
+								</h3>{' '}
 							</div>
 						</div>
 						<div className="SunRiseSunSet container flex items-center justify-center flex-col gap-2 m-auto">

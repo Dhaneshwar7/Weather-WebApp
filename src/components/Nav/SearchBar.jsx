@@ -14,48 +14,57 @@ const SearchBar = () => {
 	};
 
 	useEffect(() => {
-		const fetchWeatherData = async searchQuery => {
-			try {
-				const response = await fetch(
-					`https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=38563a45e910840c283837a6959d2880`
-				);
-				if (!response.ok) {
-					throw new Error('Weather data not available');
-				}
-				const data = await response.json();
-				// console.log(data);
-				let cord = data.coord;
-				// console.log(cord);
-				const forecastResponse = await fetch(
-					`https://api.openweathermap.org/data/2.5/forecast?lat=${cord.lat}&lon=${cord.lon}&appid=38563a45e910840c283837a6959d2880`,
-					{
-						next: { revalidate: 10 },
+		try {
+			const fetchWeatherData = async searchQuery => {
+				try {
+					const response = await fetch(
+						`https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=38563a45e910840c283837a6959d2880`
+					);
+					if (!response.ok) {
+						throw new Error('Weather data not available');
 					}
-				);
+					const data = await response.json();
+					// console.log(data);
+					let cord = data.coord;
+					// console.log(cord);
+					const forecastResponse = await fetch(
+						`https://api.openweathermap.org/data/2.5/forecast?lat=${cord.lat}&lon=${cord.lon}&appid=38563a45e910840c283837a6959d2880`,
+						{
+							next: { revalidate: 10 },
+						}
+					);
 
-				if (!forecastResponse.ok) {
-					throw new Error('Forecast data not available');
+					if (!forecastResponse.ok) {
+						throw new Error('Forecast data not available');
+					}
+					const forecastData = await forecastResponse.json();
+					let timezone = forecastData.city.timezone;
+					localStorage.setItem('weather-data', JSON.stringify(data));
+					localStorage.setItem('forecast-data', JSON.stringify(forecastData));
+					dispatch({ type: 'WEATHER_DATA', weatherData: data });
+					dispatch({ type: 'FORECAST_DATA', forecastData });
+					dispatch({ type: 'SET_TIMEZONE', zone: timezone });
+					dispatch({
+						type: 'ADD_CURRENT_LOCATION',
+						currentLocation: data.name,
+					});
+				} catch (error) {
+					console.log(error.message);
+					dispatch({ type: 'SET_ERROR', error: error.message });
 				}
-				const forecastData = await forecastResponse.json();
-				let timezone = forecastData.city.timezone;
-				localStorage.setItem('weather-data', JSON.stringify(data));
-				localStorage.setItem('forecast-data', JSON.stringify(forecastData));
-				dispatch({ type: 'WEATHER_DATA', weatherData: data });
-				dispatch({ type: 'FORECAST_DATA', forecastData });
-				dispatch({ type: 'SET_TIMEZONE', zone: timezone });
-				dispatch({ type: 'ADD_CURRENT_LOCATION', currentLocation: data.name });
-			} catch (error) {
-				console.log(error.message);
-				dispatch({ type: 'SET_ERROR', error: error.message });
-			}
-		};
+			};
 
-		if (debouncedSearch) {
-			dispatch({ type: 'SET_SEARCH_TERM', searchTxt: debouncedSearch });
-			fetchWeatherData(debouncedSearch);
-		} else {
-			dispatch({ type: 'SET_SEARCH_TERM', searchTxt: '' });
+			if (debouncedSearch) {
+				dispatch({ type: 'SET_SEARCH_TERM', searchTxt: debouncedSearch });
+				fetchWeatherData(debouncedSearch);
+			} else {
+				dispatch({ type: 'SET_SEARCH_TERM', searchTxt: '' });
+			}
+		} catch (error) {
+			 console.error('Error in SearchBar Jsx- useEffect:', error);
+			
 		}
+		
 	}, [debouncedSearch, dispatch]);
 
 	return (
