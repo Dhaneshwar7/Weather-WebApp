@@ -1,4 +1,3 @@
-'use client';
 import Image from 'next/image';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Poppins } from 'next/font/google';
@@ -17,6 +16,7 @@ export default function Home({ data, forecastData }) {
 	const { state, dispatch } = useContext(WeatherDataContext);
 	const [mounted, setMounted] = useState(false);
 	const [timezone, setTimezone] = useState(forecastData?.city.timezone);
+	console.log(state);
 
 	useEffect(() => {
 		if (!localStorage.getItem('lat')) {
@@ -55,7 +55,10 @@ export default function Home({ data, forecastData }) {
 				<div className="block max-sm:hidden">
 					<Nav />
 				</div>
+				<div className='py-10 max-sm:py-3'>
+
 				<WeatherBox />
+				</div>
 			</main>
 		</>
 	);
@@ -94,6 +97,6 @@ export async function getStaticProps() {
 			data: data || null,
 			forecastData: forecastData || null,
 		},
-		revalidate: 10,
+		revalidate: 30,
 	};
 }
