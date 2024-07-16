@@ -7,6 +7,8 @@ export default function fetchCurrentLocation(onLocationFetched) {
 					const long = position.coords.longitude.toFixed(2);
 					localStorage.setItem('lat', lat);
 					localStorage.setItem('long', long);
+					// console.log("aaraha lat long");
+					// console.log(`lat ${lat} and long${long}`);
 					onLocationFetched({ latitude: lat, longitude: long });
 					resolve({ latitude: lat, longitude: long });
 				},

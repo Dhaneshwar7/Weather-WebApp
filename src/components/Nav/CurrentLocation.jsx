@@ -15,49 +15,55 @@ const CurrentLocation = () => {
 
 	const handleLocationFetched = loc => {
 		setLocation(loc);
+		console.log(loc);
 	};
 
 	const handleClick = async () => {
 		try {
 			const location = await fetchCurrentLocation(handleLocationFetched);
 			console.log(location);
-			setLocation(location);
-			console.log(data);
 		} catch (error) {
 			// console.error('Error fetching location:', error.message);
 			setError(error.message);
 			dispatch({ type: 'SET_ERROR', error: error.message });
 		}
 	};
+
+	const currentLocData = async ({ latitude, longitude, debouncedSearch }) => {
+		const { currentLocation, timezone, forecastData, data } =
+			await fetchWeatherData({
+				lat: latitude,
+				long: longitude,
+				debouncedSearch,
+			});
+		console.log(latitude);
+		console.log(longitude);
+		console.log(debouncedSearch);
+
+		// localStorage.setItem('weather-data', JSON.stringify(data));
+		// localStorage.setItem('forecast-data', JSON.stringify(forecastData));
+
+		dispatch({ type: 'WEATHER_DATA', weatherData: data });
+		dispatch({ type: 'FORECAST_DATA', forecastData });
+		dispatch({ type: 'ADD_CURRENT_LOCATION', currentLocation });
+		dispatch({ type: 'SET_TIMEZONE', zone: timezone });
+	};
+
 	useEffect(() => {
-		try {
-			const getWeatherData = async (lat, long) => {
-				if (location.latitude && location.longitude) {
-					const { data, currentLocation, error, forecastData } =
-						await fetchWeatherData(location.latitude, location.longitude);
-					// console.log(forecastData.city.timezone);
-					let timezone = forecastData.city.timezone;
-					setCurrentLocaton(currentLocation);
-					setError(error);
-					localStorage.setItem('weather-data', JSON.stringify(data));
-					localStorage.setItem('forecast-data', JSON.stringify(forecastData));
-					dispatch({ type: 'FORECAST_DATA', forecastData });
-					dispatch({ type: 'SET_TIMEZONE', zone: timezone });
-					dispatch({ type: 'WEATHER_DATA', weatherData: data });
-					dispatch({
-						type: 'ADD_CURRENT_LOCATION',
-						currentLocation: data.name,
-					});
-					// console.log(dataa);
-				}
-			};
-			getWeatherData();
-		} catch (error) {
-			console.error('Error in CurrentLocation.jsx - useEffect:', error);
-			
+		if ((location.latitude, location.longitude)) {
+			console.log(location.latitude);
+			currentLocData({
+				latitude: location.latitude,
+				longitude: location.longitude,
+				debouncedSearch: '',
+			}).catch(error => {
+				console.error('Error in Current Location Jsx- useEffect:', error);
+				dispatch({ type: 'SET_ERROR', error: error.message });
+			});
+		} else {
+			dispatch({ type: 'SET_ERROR', error: '' });
 		}
-		
-	}, [location,dispatch]);
+	}, [location, dispatch]);
 
 	useEffect(() => {
 		setMount(true);

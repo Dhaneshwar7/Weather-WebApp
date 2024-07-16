@@ -25,6 +25,7 @@ const WeatherBox = () => {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 	const [timezone, setTimezone] = useState(state.timezone);
+	console.log(timezone);
 	const [wdata, setWData] = useState({
 		feelsLike: '',
 		humidity: '',
@@ -91,7 +92,7 @@ const WeatherBox = () => {
 						</h2>
 					</div>
 					<div className="Time text-center">
-						<h1 className="text-4xl max-sm:text-4xl">
+						<h1 className="text-4xl max-sm:text-4xl max-sm:hidden">
 							{/* {wdata?.date?.currenTime} */}
 							<Clock timestamp={Date.now()} timezoneOffsetSeconds={timezone} />
 						</h1>

@@ -15,7 +15,8 @@ const popi = Poppins({
 export default function Home({ data, forecastData }) {
 	const { state, dispatch } = useContext(WeatherDataContext);
 	const [mounted, setMounted] = useState(false);
-	const [timezone, setTimezone] = useState(forecastData?.city.timezone);
+	const [timezone, setTimezone] = useState(forecastData?.city?.timezone);
+	// console.log(timezone);
 	console.log(state);
 
 	useEffect(() => {
@@ -27,6 +28,7 @@ export default function Home({ data, forecastData }) {
 			dispatch({ type: 'FORECAST_DATA', forecastData });
 			dispatch({ type: 'SET_TIMEZONE', zone: timezone });
 			localStorage.setItem('weather-data', JSON.stringify(data));
+			console.log(timezone);
 			localStorage.setItem('forecast-data', JSON.stringify(forecastData));
 		}
 	}, [data, dispatch, forecastData, timezone]);
@@ -36,6 +38,14 @@ export default function Home({ data, forecastData }) {
 		dispatch({
 			type: 'WEATHER_DATA',
 			weatherData: JSON.parse(localStorage.getItem('weather-data')),
+		});
+		dispatch({
+			type: 'FORECAST_DATA',
+			forecastData: JSON.parse(localStorage.getItem('forecast-data')),
+		});
+		dispatch({
+			type: 'SET_TIMEZONE',
+			zone: JSON.parse(localStorage.getItem('timezone')),
 		});
 		dispatch({
 			type: 'ADD_CURRENT_LOCATION',
@@ -55,9 +65,8 @@ export default function Home({ data, forecastData }) {
 				<div className="block max-sm:hidden">
 					<Nav />
 				</div>
-				<div className='py-10 max-sm:py-3'>
-
-				<WeatherBox />
+				<div className="py-10 max-sm:py-3">
+					<WeatherBox />
 				</div>
 			</main>
 		</>
