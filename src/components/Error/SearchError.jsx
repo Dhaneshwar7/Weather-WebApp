@@ -21,7 +21,9 @@ const SearchError = ({ errorMsg }) => {
 					<span className="font-medium max-sm:text-xs max-sm:font-thin">
 						{errorMsg === 'Failed to fetch'
 							? 'Network Probleam'
-							: errorMsg === 'Weather data not available'?'City Name not found':''}
+							: errorMsg === 'Weather data not available'
+							? 'City Name not found'
+							: errorMsg === 'Geolocation Error: User denied Geolocation'?'':''}
 						{/* {errorMsg} */}
 					</span>
 				</div>

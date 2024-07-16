@@ -21,11 +21,18 @@ const mpopi = Mochiy_Pop_One({
 	preload: true,
 });
 const WeatherBox = () => {
+	const [mounted, setMounted] = useState(false);
 	const { state, dispatch } = useContext(WeatherDataContext);
 	const { theme, setTheme } = useTheme();
-	const [mounted, setMounted] = useState(false);
 	const [timezone, setTimezone] = useState(state.timezone);
-	console.log(timezone);
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	console.log(windowWidth);
+	useEffect(() => {
+		const handleResize = () => setWindowWidth(window.innerWidth);
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
 	const [wdata, setWData] = useState({
 		feelsLike: '',
 		humidity: '',
@@ -56,12 +63,16 @@ const WeatherBox = () => {
 			if (state.data) {
 				const result = state.data.main;
 				const alldata = state.data;
-				setTimezone(state.timezone);
 				// console.log(timeConverter(alldata.dt));
 				let todayDateTime = timeConverter(alldata.dt);
 				let sunriseTime = timeConverter(alldata.sys.sunrise);
 				let sunsetTime = timeConverter(alldata.sys.sunset);
 				dispatch({ type: 'SET_DATE', edate: todayDateTime });
+				dispatch({
+					type: 'SET_TIMEZONE',
+					timezone: state.timezone,
+				});
+
 				// console.log(todayDateTime);
 				setWData({
 					temperature: (result.temp - 273.15).toFixed(1),
@@ -93,8 +104,20 @@ const WeatherBox = () => {
 					</div>
 					<div className="Time text-center">
 						<h1 className="text-4xl max-sm:text-4xl max-sm:hidden">
-							{/* {wdata?.date?.currenTime} */}
-							<Clock timestamp={Date.now()} timezoneOffsetSeconds={timezone} />
+							{windowWidth >= 640 && (
+								<Clock
+									timestamp={Date.now()}
+									timezoneOffsetSeconds={timezone}
+									winWidth={windowWidth}
+								/>
+							)}
+							{/* {windowWidth < 640 && (
+								<Clock
+									timestamp={Date.now()}
+									timezoneOffsetSeconds={timezone}
+									
+								/>
+							)} */}
 						</h1>
 						<h3 className="text-lg max-sm:text-base">{wdata?.date?.toDay}</h3>
 					</div>

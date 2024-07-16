@@ -5,7 +5,7 @@ const initialState = {
 	forecastData: [],
 	searchText: '',
 	error: '',
-	timezone: '',
+	timezone: null,
 	currentLocation: 'Current Location',
 	date: null,
 };
@@ -23,9 +23,10 @@ const reducer = (state, action) => {
 				forecastData: action.forecastData,
 			};
 		case 'SET_TIMEZONE':
+			// console.log(state.timezone);
 			return {
 				...state,
-				timezone: action.zone,
+				timezone: action.timezone,
 			};
 		case 'ADD_CURRENT_LOCATION':
 			return {

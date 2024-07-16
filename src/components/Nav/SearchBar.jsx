@@ -4,50 +4,50 @@ import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react';
 import SearchError from '../Error/SearchError';
 import { fetchWeatherData } from '@/utils/FetchWeatherData';
-import { formatDynamicAPIAccesses } from 'next/dist/server/app-render/dynamic-rendering';
 
 const SearchBar = () => {
+	const [mount, setMount] = useState(false);
 	const { state, dispatch } = useContext(WeatherDataContext);
 	const [search, setSearch] = useState('');
 	const { debouncedValue: debouncedSearch, loading } = useDebounce(
 		search,
 		1000
 	);
+	const [errorView, setErrorView] = useState('');
+	console.log(state);
 
 	const handleSearchChange = e => {
-		if (e.target.value !== '') {
-			setSearch(e.target.value);
+		setSearch(e.target.value);
+		if (e.target.value === '') {
+			dispatch({ type: 'SET_ERROR', error: '' });
 		}
-		// if (search !== '') {
-		// 	dispatch({ type: 'SET_ERROR', error: '' });
-		// }
 	};
 
 	const getAllFetchData = async searchQuery => {
+		if (!searchQuery) return;
 		dispatch({ type: 'SET_SEARCH_TERM', searchTxt: searchQuery });
-		const { currentLocation, timezone, forecastData, data } =
-			await fetchWeatherData({
-				lat: null,
-				long: null,
-				debouncedSearch: searchQuery,
-			});
-		// console.log(currentLocation);
+		const { timezone, forecastData, data, errorMsg } = await fetchWeatherData({
+			lat: null,
+			long: null,
+			debouncedSearch: searchQuery,
+		});
 		// console.log(forecastData);
 		// console.log(data);
 		// console.log(timezone);
-
-		// localStorage.setItem('weather-data', JSON.stringify(data));
-		// localStorage.setItem('forecast-data', JSON.stringify(forecastData));
+		if (errorMsg) {
+			setErrorView(errorMsg);
+			dispatch({ type: 'SET_ERROR', error: errorMsg });
+			return;
+		}
 		dispatch({ type: 'WEATHER_DATA', weatherData: data });
 		dispatch({ type: 'FORECAST_DATA', forecastData });
-		dispatch({ type: 'ADD_CURRENT_LOCATION', currentLocation });
-		dispatch({ type: 'SET_TIMEZONE', zone: timezone });
+		dispatch({ type: 'SET_TIMEZONE', timezone: timezone });
 	};
 
 	useEffect(() => {
 		if (debouncedSearch) {
 			getAllFetchData(debouncedSearch).catch(error => {
-				console.error('Error in SearchBar Jsx- useEffect:', error);
+				// console.error('Error in SearchBar Jsx- useEffect:', error);
 				dispatch({ type: 'SET_ERROR', error: error.message });
 			});
 		} else {
@@ -55,6 +55,11 @@ const SearchBar = () => {
 		}
 	}, [debouncedSearch, dispatch]);
 
+	useEffect(() => {
+		setMount(true);
+	}, []);
+
+	if (!mount) return null;
 	return (
 		<div className="SearchBar">
 			<div className="container mx-auto flex  max-sm:px-1 relative  p-1">

@@ -6,52 +6,52 @@ import { fetchWeatherData } from '@/utils/FetchWeatherData';
 const CurrentLocation = () => {
 	const [location, setLocation] = useState({ latitude: null, longitude: null });
 	const { state, dispatch } = useContext(WeatherDataContext);
-	const [currentLocation, setCurrentLocaton] = useState(
-		state.currentLocation || 'Current Location'
-	);
+	const [currentLocation, setCurrentLocaton] = useState('Current Location');
 	const [mount, setMount] = useState(false);
 	const [error, setError] = useState(null);
-	// console.log(state);
 
 	const handleLocationFetched = loc => {
 		setLocation(loc);
-		console.log(loc);
 	};
-
 	const handleClick = async () => {
 		try {
 			const location = await fetchCurrentLocation(handleLocationFetched);
-			console.log(location);
+			// console.log(location);
 		} catch (error) {
 			// console.error('Error fetching location:', error.message);
 			setError(error.message);
 			dispatch({ type: 'SET_ERROR', error: error.message });
 		}
 	};
-
 	const currentLocData = async ({ latitude, longitude, debouncedSearch }) => {
-		const { currentLocation, timezone, forecastData, data } =
-			await fetchWeatherData({
-				lat: latitude,
-				long: longitude,
-				debouncedSearch,
-			});
-		console.log(latitude);
-		console.log(longitude);
-		console.log(debouncedSearch);
-
-		// localStorage.setItem('weather-data', JSON.stringify(data));
-		// localStorage.setItem('forecast-data', JSON.stringify(forecastData));
+		const { timezone, forecastData, data, errorMsg } = await fetchWeatherData({
+			lat: latitude,
+			long: longitude,
+			debouncedSearch,
+		});
+		if (errorMsg) {
+			setError(errorMsg);
+			dispatch({ type: 'SET_ERROR', error: errorMsg });
+			return;
+		}
+		dispatch({
+			type: 'ADD_CURRENT_LOCATION',
+			currentLocation: localStorage.getItem('current-location'),
+		});
 
 		dispatch({ type: 'WEATHER_DATA', weatherData: data });
 		dispatch({ type: 'FORECAST_DATA', forecastData });
-		dispatch({ type: 'ADD_CURRENT_LOCATION', currentLocation });
-		dispatch({ type: 'SET_TIMEZONE', zone: timezone });
+		dispatch({
+			type: 'SET_TIMEZONE',
+			timezone: JSON.parse(localStorage.getItem('timezone')),
+		});
 	};
+	useEffect(() => {
+		setCurrentLocaton(state.currentLocation);
+	}, [state.currentLocation, setCurrentLocaton]);
 
 	useEffect(() => {
 		if ((location.latitude, location.longitude)) {
-			console.log(location.latitude);
 			currentLocData({
 				latitude: location.latitude,
 				longitude: location.longitude,
@@ -67,7 +67,10 @@ const CurrentLocation = () => {
 
 	useEffect(() => {
 		setMount(true);
-	}, [dispatch]);
+		if (localStorage.getItem('current-location')) {
+			setCurrentLocaton(localStorage.getItem('current-location'));
+		}
+	}, []);
 
 	if (!mount) return null;
 	return (
@@ -97,7 +100,7 @@ const CurrentLocation = () => {
 					</div>
 				</button>
 				<div className="absolute hidden max-sm:block -bottom-1/2 text-center m-auto container flex-wrap whitespace-nowrap text-xs max-sm:text-[10px] mt-1">
-					{currentLocation === 'Current Location' ? '' : currentLocation}
+					{currentLocation}
 				</div>
 			</label>
 		</div>
