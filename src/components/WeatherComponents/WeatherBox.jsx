@@ -123,7 +123,7 @@ const WeatherBox = () => {
 				</div>
 				<div className="WeatherInfo drop-shadow-box dark:drop-shadow-dark  bg-l-col dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-fit p-3 rounded-2xl max-sm:w-full max-sm:gap-4 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
-						<div className="Temperature container text-center m-auto  py-3 mb-3 max-sm:mb-0">
+						<div className="Temperature container text-center m-auto  py-8 mb-3 max-sm:mb-0">
 							<h1 className="text-5xl max-sm:text-[44px]">
 								{wdata?.temperature}&deg;C
 							</h1>
