@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-
 import { Mochiy_Pop_One } from 'next/font/google';
 import Image from 'next/image';
 import humiditySvg from '../../../public/Icons/humidity.svg';
@@ -26,7 +25,7 @@ const WeatherBox = () => {
 	const { theme, setTheme } = useTheme();
 	const [timezone, setTimezone] = useState(state.timezone);
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-	console.log(windowWidth);
+	// console.log(windowWidth);
 	useEffect(() => {
 		const handleResize = () => setWindowWidth(window.innerWidth);
 		window.addEventListener('resize', handleResize);
@@ -96,10 +95,10 @@ const WeatherBox = () => {
 	return (
 		<>
 			<div className="WeatherBox flex  dark:text-white text-neutral-800 flex-row max-sm:flex-col items-center justify-between max-sm:h-auto h-[40vh] py-3 px-2 gap-8 max-sm:py-5 max-sm:gap-4">
-				<div className="BasicInfo grow  bg-l-col dark:drop-shadow-dark dark:bg-d-col/50 w-[37%] max-sm:w-full max-sm:py-4 h-full rounded-2xl flex flex-col items-center drop-shadow-box justify-center">
+				<div className="BasicInfo grow  py-5 bg-l-col dark:drop-shadow-dark dark:bg-d-col/50 w-[37%] max-sm:w-full max-sm:py-4 h-fit rounded-2xl flex flex-col items-center drop-shadow-box justify-center">
 					<div className={`Location mb-10 max-sm:mb-4 ${mpopi.className}`}>
 						<h2 className="text-5xl max-sm:text-2xl ">
-							{wdata.currentLocation}
+							{wdata?.currentLocation}
 						</h2>
 					</div>
 					<div className="Time text-center">
@@ -122,16 +121,16 @@ const WeatherBox = () => {
 						<h3 className="text-lg max-sm:text-base">{wdata?.date?.toDay}</h3>
 					</div>
 				</div>
-				<div className="WeatherInfo drop-shadow-box dark:drop-shadow-dark  bg-l-col dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-full p-3 rounded-2xl max-sm:w-full max-sm:gap-4 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
+				<div className="WeatherInfo drop-shadow-box dark:drop-shadow-dark  bg-l-col dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-fit p-3 rounded-2xl max-sm:w-full max-sm:gap-4 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
 						<div className="Temperature container text-center m-auto  py-3 mb-3 max-sm:mb-0">
 							<h1 className="text-5xl max-sm:text-[44px]">
-								{wdata.temperature}&deg;C
+								{wdata?.temperature}&deg;C
 							</h1>
 							<div className="FeelLike max-sm:mt-2">
 								<h3 className="max-sm:text-[15px]">
 									{' '}
-									Feels Like : {wdata.feelsLike}&deg;C
+									Feels Like : {wdata?.feelsLike}&deg;C
 								</h3>{' '}
 							</div>
 						</div>
@@ -148,7 +147,7 @@ const WeatherBox = () => {
 								/>
 								<div className="text-sm">
 									<h3>Sunrise</h3>
-									<p>{wdata.sunrise}</p>
+									<p>{wdata?.sunrise}</p>
 								</div>
 							</div>
 							<div className="SunRise flex gap-2 items-center justify-center">
@@ -197,7 +196,7 @@ const WeatherBox = () => {
 								height={40}
 								className="max-sm:scale-75"
 							/>
-							<h3 className="text-sm">{wdata.humidity}%</h3>
+							<h3 className="text-sm">{wdata?.humidity}%</h3>
 							<p className="text-xs">Humidity</p>
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
@@ -210,7 +209,7 @@ const WeatherBox = () => {
 								height={40}
 								className="-mt-1 max-sm:scale-75"
 							/>
-							<h3 className="text-sm">{wdata.windy}Km/h</h3>
+							<h3 className="text-sm">{wdata?.windy}Km/h</h3>
 							<p className="text-xs">Wind Speed</p>
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
@@ -223,7 +222,7 @@ const WeatherBox = () => {
 								height={40}
 								className="max-sm:scale-75"
 							/>
-							<h3 className="text-sm">{wdata.pressure}pha</h3>
+							<h3 className="text-sm">{wdata?.pressure}pha</h3>
 							<p className="text-xs">Pressure</p>
 						</div>
 						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
@@ -236,7 +235,7 @@ const WeatherBox = () => {
 								height={40}
 								className="max-sm:scale-75"
 							/>
-							<h3 className="text-sm">{wdata.visibility} Km</h3>
+							<h3 className="text-sm">{wdata?.visibility} Km</h3>
 							<p className="text-[10px]">Visibility</p>
 						</div>
 					</div>

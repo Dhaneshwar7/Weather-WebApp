@@ -18,7 +18,7 @@ const SearchError = ({ errorMsg }) => {
 				</svg>
 				<span className="sr-only">Info</span>
 				<div>
-					<span className="font-medium max-sm:text-xs max-sm:font-thin">
+					<span className="font-medium max-sm:text-xs max-sm:whitespace-nowrap		 max-sm:font-thin">
 						{errorMsg === 'Failed to fetch'
 							? 'Network Probleam'
 							: errorMsg === 'Weather data not available'

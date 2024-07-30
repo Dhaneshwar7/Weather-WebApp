@@ -1,4 +1,7 @@
-import { createContext, useMemo, useReducer } from 'react';
+import { createContext, useContext, useMemo, useReducer } from 'react';
+
+export const WeatherDataContext = createContext();
+
 
 const initialState = {
 	data: [],
@@ -54,8 +57,6 @@ const reducer = (state, action) => {
 			return state;
 	}
 };
-
-export const WeatherDataContext = createContext();
 
 export const WeatherDataProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);

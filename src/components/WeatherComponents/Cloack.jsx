@@ -38,7 +38,6 @@ const Clock = ({ timestamp, timezoneOffsetSeconds }) => {
 	// console.log(currentTime);
 	// console.log(timestamp);
 	// console.log(timezoneOffsetSeconds);
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentTime(formatTimestamp(Date.now(), state.timezone));
@@ -47,7 +46,6 @@ const Clock = ({ timestamp, timezoneOffsetSeconds }) => {
 
 		return () => clearInterval(interval);
 	}, [state.timezone]);
-
 	return (
 		<div>
 			<p>{currentTime}</p>

@@ -99,7 +99,7 @@ const CurrentLocation = () => {
 						</span>
 					</div>
 				</button>
-				<div className="absolute hidden max-sm:block -bottom-1/2 text-center m-auto container flex-wrap whitespace-nowrap text-xs max-sm:text-[10px] mt-1">
+				<div className="absolute hidden max-sm:block -bottom-1/2 max-sm:-left-10 text-center m-auto container flex-wrap whitespace-nowrap text-[10px] max-sm:text-[10px] mt-1  max-sm:-mt-">
 					{currentLocation}
 				</div>
 			</label>

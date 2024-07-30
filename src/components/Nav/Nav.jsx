@@ -5,8 +5,8 @@ import SearchBar from './SearchBar';
 import CurrentLocation from './CurrentLocation';
 
 const Nav = () => {
-	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
+	const { theme, setTheme } = useTheme();
 	useEffect(() => {
 		setMounted(true);
 	}, []);
