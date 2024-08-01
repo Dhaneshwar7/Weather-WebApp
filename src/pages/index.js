@@ -4,6 +4,11 @@ import { Poppins } from 'next/font/google';
 import Nav from '@/components/Nav/Nav';
 import WeatherBox from '@/components/WeatherComponents/WeatherBox';
 import { WeatherDataContext } from '@/utils/WeatherDataReducer';
+import {
+	FiveDaysForecast,
+	ForecastWrapper,
+	HourlyForecast,
+} from '@/components/ForecastComponents';
 
 const popi = Poppins({
 	weight: '600',
@@ -53,7 +58,7 @@ export default function Home({ data, forecastData }) {
 	return (
 		<>
 			<main
-				className={`w-screen ${popi.className} min-h-screen relative max-h-fit py-8 px-10 max-sm:py-4 max-sm:px-3  bg-light-lg dark:bg-dark-lg transition-[background-image] duration-2000`}
+				className={`w-screen ${popi.className} min-h-screen relative max-h-fit pt-8 pb-3 px-10 max-sm:py-4 max-sm:px-3  bg-light-lg dark:bg-dark-lg transition-[background-image] duration-2000`}
 			>
 				<div className="w-full pt-4 container rounded-xl h-[10vh] hidden max-sm:block bg-l-col dark:bg-d-col backdrop-blur-xl sticky z-50 m-auto top-0 left-0 right-0">
 					<Nav />
@@ -62,8 +67,11 @@ export default function Home({ data, forecastData }) {
 				<div className="block max-sm:hidden">
 					<Nav />
 				</div>
-				<div className="py-10 max-sm:py-3">
+				<div className="pt-10  max-sm:py-3">
 					<WeatherBox />
+				</div>
+				<div className="">
+					<ForecastWrapper />
 				</div>
 			</main>
 		</>
