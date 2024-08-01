@@ -121,7 +121,7 @@ const WeatherBox = () => {
 						<h3 className="text-lg max-sm:text-base">{wdata?.date?.toDay}</h3>
 					</div>
 				</div>
-				<div className="WeatherInfo drop-shadow-box dark:drop-shadow-dark  bg-l-col dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-fit p-3 rounded-2xl max-sm:w-full max-sm:gap-4 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
+				<div className="WeatherInfo drop-shadow-box dark:drop-shadow-dark  bg-l-col dark:bg-d-col/50 w-3/5 max-sm:min-h-[50vh] h-fit p-3 rounded-2xl max-sm:w-full max-sm:gap-2 max-sm:py-6 max-sm:px-5 flex max-sm:flex-col">
 					<div className="Left flex flex-col items-center container max-sm:flex-row justify-center m-auto ">
 						<div className="Temperature container text-center m-auto  py-8 mb-3 max-sm:mb-0">
 							<h1 className="text-5xl max-sm:text-[44px]">
@@ -134,7 +134,7 @@ const WeatherBox = () => {
 								</h3>{' '}
 							</div>
 						</div>
-						<div className="SunRiseSunSet container flex items-center justify-center flex-col gap-2 m-auto">
+						<div className="SunRiseSunSet container  flex items-center justify-center flex-col gap-0 m-auto">
 							<div className="SunRise flex gap-2 items-center justify-center">
 								<Image
 									priority={true}
@@ -145,7 +145,7 @@ const WeatherBox = () => {
 									height={48}
 									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75 w-auto h-auto"
 								/>
-								<div className="text-sm">
+								<div className="text-sm ">
 									<h3>Sunrise</h3>
 									<p>{wdata?.sunrise}</p>
 								</div>
@@ -158,19 +158,19 @@ const WeatherBox = () => {
 									style={theme === 'light' ? iconBlack : iconWhite}
 									width={48}
 									height={48}
-									className="max-sm:w-36 max-sm:h-36 max-sm:scale-75 w-auto h-auto"
+									className="max-sm:w-36 max-sm:h-36 scale-75 max-sm:scale-75 w-auto h-auto"
 								/>
 
-								<div className="text-sm">
+								<div className="text-sm  whitespace-nowrap">
 									<h3>Sunset</h3>
 									<p>{wdata.sunset}</p>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className="Middle m-auto container h-full">
+					<div className="Middle m-auto container h-full ">
 						<div className="SunImage">
-							<div className="w-48 block h-48 max-sm:w-32 max-sm:h-32 m-auto">
+							<div className="w-48 block h-48 max-sm:w-28 max-sm:h-28 m-auto">
 								<Image
 									priority={true}
 									alt="weather pics"
@@ -185,8 +185,8 @@ const WeatherBox = () => {
 							</h3>
 						</div>
 					</div>
-					<div className="Right m-auto container  h-full grid grid-cols-2 gap-2">
-						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1">
+					<div className="Right m-auto container h-auto grid grid-cols-2 gap-2 ">
+						<div className="text-center m-auto flex flex-col w-full justify-evenly items-center gap-1 ">
 							<Image
 								priority={true}
 								alt="weather pics"
